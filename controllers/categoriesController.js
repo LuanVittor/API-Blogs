@@ -9,7 +9,7 @@ const categorie = async (req, res) => {
 
 const getAllCategories = async (req, res) => {
   const categories = await Categories.findAll();
-  return res.status(201).json(categories);
+  return res.status(200).json(categories);
 };
 
 module.exports = {
