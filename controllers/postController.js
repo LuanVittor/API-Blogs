@@ -32,7 +32,8 @@ const getPostById = async (req, res) => {
       { model: Categories, as: 'categories', through: { attributes: [] } },
     ],
   });
-  return res.status(200).json(result);
+  if (!result.length) return res.status(404).json({ message: 'Post does not exist' });
+  return res.status(200).json(result[0]);
 };
 
 module.exports = {
