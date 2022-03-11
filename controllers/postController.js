@@ -73,10 +73,26 @@ const deletePost = async (req, res) => {
   return res.status(401).json({ message: 'Unauthorized user' });
 };
 
+const getPostByName = async (req, res) => {
+  const { q } = req.query;
+  const getAllPosts = await BlogPosts.findAll({
+    attributes: { exclude: ['UserId'] },
+    include: [
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  if (!q) return res.status(200).json(getAllPosts);
+
+  const postQ = getAllPosts.filter((elem) => (elem.title.includes(q) || elem.content.includes(q)));
+  return res.status(200).json(postQ);
+};
+
 module.exports = {
   post,
   getPostById,
   getAllPost,
   editPost,
   deletePost,
+  getPostByName,
 };

@@ -2,7 +2,7 @@ const express = require('express');
 const { categorie, getAllCategories } = require('./controllers/categoriesController');
 const { login } = require('./controllers/loginController');
 const { post, getPostById, getAllPost,
-  editPost, deletePost } = require('./controllers/postController');
+  editPost, deletePost, getPostByName } = require('./controllers/postController');
 const { user, getAllUsers, getUserById, deleteMe } = require('./controllers/userControler');
 const auth = require('./middlewares/auth');
 const { validateTitle, validateContent,
@@ -22,6 +22,7 @@ app.post('/categories', auth, categorie);
 app.get('/categories', auth, getAllCategories);
 app.post('/post', validateTitle, validateContent, validateCategoryIds, auth, post);
 app.get('/post', auth, getAllPost);
+app.get('/post/search', auth, getPostByName);
 app.get('/post/:id', auth, getPostById);
 app.put('/post/:id', validadePayload, auth, editPost);
 app.delete('/post/:id', auth, deletePost);
