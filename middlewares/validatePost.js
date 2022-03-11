@@ -12,11 +12,19 @@ const validateContent = (req, res, next) => {
     next();
 };
 
-const validateCategoryIds = (req, res, next) => {
+const validateCategoryIds = async (req, res, next) => {
   const { categoryIds } = req.body;
   if (!categoryIds) return res.status(400).json({ message: '"categoryIds" is required' });
-  const exist = Categories.findOne({ where: { id: categoryIds } });
-  if (!exist) res.status(400).json({ message: '"categoryIds" not found' });
+  const allCategories = [];
+  await Promise.all(categoryIds.map(async (elem) => {
+    const exist = await Categories.findOne({ where: { id: elem } });
+    allCategories.push(exist);
+    return allCategories;
+  }));
+  console.log(allCategories);
+  if (allCategories.includes(null)) {
+    return res.status(400).json({ message: '"categoryIds" not found' });
+  }
   return next();
 };
 
