@@ -33,8 +33,15 @@ const user = async (req, res) => {
   }
 };
 
+const deleteMe = async (req, res) => {
+  const { data } = req.user;
+  await Users.destroy({ where: { email: data } });
+  return res.status(204).end();
+};
+
 module.exports = {
   user,
   getAllUsers,
   getUserById,
+  deleteMe,
 };
