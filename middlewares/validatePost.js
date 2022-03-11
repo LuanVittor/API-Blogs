@@ -21,7 +21,6 @@ const validateCategoryIds = async (req, res, next) => {
     allCategories.push(exist);
     return allCategories;
   }));
-  console.log(allCategories);
   if (allCategories.includes(null)) {
     return res.status(400).json({ message: '"categoryIds" not found' });
   }
