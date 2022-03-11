@@ -1,7 +1,8 @@
 const express = require('express');
 const { categorie, getAllCategories } = require('./controllers/categoriesController');
 const { login } = require('./controllers/loginController');
-const { post, getPostById, getAllPost, editPost, deletePost } = require('./controllers/postController');
+const { post, getPostById, getAllPost,
+  editPost, deletePost } = require('./controllers/postController');
 const { user, getAllUsers, getUserById } = require('./controllers/userControler');
 const auth = require('./middlewares/auth');
 const { validateTitle, validateContent,
