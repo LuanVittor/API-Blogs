@@ -1,7 +1,7 @@
 const express = require('express');
 const { categorie, getAllCategories } = require('./controllers/categoriesController');
 const { login } = require('./controllers/loginController');
-const { post, getPostById, getAllPost, editPost } = require('./controllers/postController');
+const { post, getPostById, getAllPost, editPost, deletePost } = require('./controllers/postController');
 const { user, getAllUsers, getUserById } = require('./controllers/userControler');
 const auth = require('./middlewares/auth');
 const { validateTitle, validateContent,
@@ -23,6 +23,7 @@ app.post('/post', validateTitle, validateContent, validateCategoryIds, auth, pos
 app.get('/post', auth, getAllPost);
 app.get('/post/:id', auth, getPostById);
 app.put('/post/:id', validadePayload, auth, editPost);
+app.delete('/post/:id', auth, deletePost);
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 

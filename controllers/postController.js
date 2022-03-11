@@ -57,9 +57,26 @@ const editPost = async (req, res) => {
   return res.status(401).json({ message: 'Unauthorized user' });
 };
 
+const deletePost = async (req, res) => {
+  const { id } = req.params;
+  const result = await BlogPosts.findOne({ where: { id } });
+  if (!result) return res.status(404).json({ message: 'Post does not exist' });
+
+  const { data } = req.user;
+  const userLog = await Users.findOne({ where: { email: data } });
+  const userId = userLog.id;
+
+  if (userId === result.userId) {
+    await BlogPosts.destroy({ where: { id } });
+    return res.status(204).end();
+  }
+  return res.status(401).json({ message: 'Unauthorized user' });
+};
+
 module.exports = {
   post,
   getPostById,
   getAllPost,
   editPost,
+  deletePost,
 };
