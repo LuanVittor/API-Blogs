@@ -11,13 +11,24 @@ const post = async (req, res) => {
   return res.status(201).json(newPost);
 };
 
+const getAllPost = async (req, res) => {
+  const result = await BlogPosts.findAll({
+    attributes: { exclude: ['UserId'] },
+    include: [
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return res.status(200).json(result);
+};
+
 const getPostById = async (req, res) => {
   const { id } = req.params;
   const result = await BlogPosts.findAll({
     where: { id },
     attributes: { exclude: ['UserId'] },
     include: [
-      { model: Users, as: 'user', attributes: { exclude: ['password', 'UserId'] } },
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
       { model: Categories, as: 'categories', through: { attributes: [] } },
     ],
   });
@@ -27,4 +38,5 @@ const getPostById = async (req, res) => {
 module.exports = {
   post,
   getPostById,
+  getAllPost,
 };
