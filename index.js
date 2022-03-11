@@ -21,6 +21,7 @@ app.get('/categories', auth, getAllCategories);
 app.post('/post', validateTitle, validateContent, validateCategoryIds, auth, post);
 app.get('/post', auth, getAllPost);
 app.get('/post/:id', auth, getPostById);
+app.put('/post/:id');
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 
