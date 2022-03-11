@@ -1,6 +1,6 @@
 const { BlogPosts } = require('../models');
 const { Users } = require('../models');
-// const { Categories } = require('../models');
+const { Categories } = require('../models');
 
 const post = async (req, res) => {
   const { data } = req.user;
@@ -18,7 +18,7 @@ const getPostById = async (req, res) => {
     attributes: { exclude: ['UserId'] },
     include: [
       { model: Users, as: 'user', attributes: { exclude: ['password', 'UserId'] } },
-      // { model: Categories, as: 'categories', through: { attributes: [] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
     ],
   });
   return res.status(200).json(result);
