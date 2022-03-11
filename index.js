@@ -1,5 +1,5 @@
 const express = require('express');
-const { categorie } = require('./controllers/categoriesController');
+const { categorie, getAllCategories } = require('./controllers/categoriesController');
 const { login } = require('./controllers/loginController');
 const { user, getAllUsers, getUserById } = require('./controllers/userControler');
 const auth = require('./middlewares/auth');
@@ -14,6 +14,7 @@ app.post('/login', emailValidation, passwordValidation, login);
 app.get('/user', auth, getAllUsers);
 app.get('/user/:id', auth, getUserById);
 app.post('/categories', auth, categorie);
+app.get('/categories', auth, getAllCategories)
 
 app.listen(3000, () => console.log('ouvindo porta 3000!'));
 

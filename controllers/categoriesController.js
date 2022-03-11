@@ -7,6 +7,12 @@ const categorie = async (req, res) => {
   return res.status(201).json(creat);
 };
 
+const getAllCategories = async (req, res) => {
+  const categories = await Categories.findAll();
+  return res.status(201).json(categories);
+};
+
 module.exports = {
   categorie,
+  getAllCategories,
 };
