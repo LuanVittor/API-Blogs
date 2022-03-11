@@ -36,8 +36,30 @@ const getPostById = async (req, res) => {
   return res.status(200).json(result[0]);
 };
 
+const editPost = async (req, res) => {
+  const { id } = req.params;
+  const result = await BlogPosts.findOne({ where: { id } });
+
+  const { data } = req.user;
+  const userLog = await Users.findOne({ where: { email: data } });
+  const userId = userLog.id;
+
+  const { title, content } = req.body;
+  if (userId === result.userId) {
+    await BlogPosts.update({ title, content }, { where: { id } });
+    const resultado = await BlogPosts.findAll({
+      where: { id },
+      attributes: { exclude: ['id', 'UserId', 'published', 'updated'] },
+      include: [{ model: Categories, as: 'categories', through: { attributes: [] } }],
+    });
+    return res.status(200).json(resultado[0]);
+  }
+  return res.status(401).json({ message: 'Unauthorized user' });
+};
+
 module.exports = {
   post,
   getPostById,
   getAllPost,
+  editPost,
 };
