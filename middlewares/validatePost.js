@@ -15,7 +15,7 @@ const validateContent = (req, res, next) => {
 const validateCategoryIds = (req, res, next) => {
   const { categoryIds } = req.body;
   if (!categoryIds) return res.status(400).json({ message: '"categoryIds" is required' });
-  const exist = Categories.findByPk(categoryIds);
+  const exist = Categories.findOne({ where: { id: categoryIds } });
   if (!exist) res.status(400).json({ message: '"categoryIds" not found' });
   return next();
 };
